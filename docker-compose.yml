@@ -1,10 +1,10 @@
 services:
   backend: 
-    image: backend:v1
+    image: mybackend:v1
     ports:
       - "8080:8080"
   
   frontend:
-    image: frontend:v1
+    image: myfrontend:v2
     ports:  
       - "8081:3000"
