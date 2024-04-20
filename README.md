@@ -4,20 +4,20 @@
 - Group: W04IST-SI0828G
 - Date: 20.04.2024
 
-## Environment architecture
+# Environment architecture
 
-# Virtual Private Cloud (VPC):
+## Virtual Private Cloud (VPC):
   * Created a VPC in AWS, functioning as an isolated private network for the infrastructure.
-# EC2 Instance:
+## EC2 Instance:
   * Using Terraform, provisioned an EC2 instance in the VPC's public subnet.
   * On the EC2 instance, Docker environment was deployed, hosting containers with the game.
-# Docker Containers:
+## Docker Containers:
   * Docker containers running on the EC2 instance hosted the game.
   * Docker containers were run by Docker Compose
-# Security Groups:
+## Security Groups:
   * Configured security groups in order to allow to open the address in internet browser
 
-## Preview
+# Preview
 
 Screenshots of configured AWS services. Screenshots of your application running.
 
@@ -29,7 +29,7 @@ Screenshots of configured AWS services. Screenshots of your application running.
 ![Game3](screeny1/gra3.png)
 
 
-## Reflections
+# Reflections
 
 In this project, I learned:
 
