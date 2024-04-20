@@ -12,8 +12,7 @@ Description and scheme of the developed infrastructure.
 
 Screenshots of configured AWS services. Screenshots of your application running.
 
-![Sample image](img/sample-image.png)
-![compose](screeny/compose.png)
+![Docker compose](screeny1/compose.png)
 
 
 ## Reflections
