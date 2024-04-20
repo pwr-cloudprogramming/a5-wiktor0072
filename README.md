@@ -8,7 +8,6 @@
 
 # Virtual Private Cloud (VPC):
   * Created a VPC in AWS, functioning as an isolated private network for the infrastructure.
-  * Configured IP addressing, routers, route tables, and security groups within the VPC to control network traffic between resources.
 # Public Subnet:
   * Inside the VPC, established a public subnet with assigned public IP addresses.
   * Launched an EC2 instance in the public subnet, acting as an entry gateway to the application.
