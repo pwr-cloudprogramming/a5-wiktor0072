@@ -8,18 +8,14 @@
 
 # Virtual Private Cloud (VPC):
   * Created a VPC in AWS, functioning as an isolated private network for the infrastructure.
-# Public Subnet:
-  * Inside the VPC, established a public subnet with assigned public IP addresses.
-  * Launched an EC2 instance in the public subnet, acting as an entry gateway to the application.
 # EC2 Instance:
   * Using Terraform, provisioned an EC2 instance in the VPC's public subnet.
   * On the EC2 instance, Docker environment was deployed, hosting containers with the game.
 # Docker Containers:
   * Docker containers running on the EC2 instance hosted the game.
-  * Containers could be run in a Docker Swarm cluster or on a single Docker node, depending on application requirements.
+  * Docker containers were run by Docker Compose
 # Security Groups:
-  * Configured security groups to control network traffic between the EC2 instance and Docker containers and access to the application from the outside.
-  * Applied the principle of least privilege, restricting only necessary network connections.
+  * Configured security groups in order to allow to open the address in internet browser
 
 ## Preview
 
