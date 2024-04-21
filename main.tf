@@ -100,6 +100,7 @@ resource "aws_instance" "tf-web-server" {
 		sudo docker compose up -d
 
 
+
 		EOF
 	
 
