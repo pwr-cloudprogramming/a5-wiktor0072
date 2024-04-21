@@ -3,12 +3,8 @@ services:
     image: backend:v1
     ports:
       - "8080:8080"
-    networks:
-      - my_network
   
   frontend:
     image: frontend:v1
     ports:  
       - "8081:3000"
-    networks:
-      - my_network
