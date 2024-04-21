@@ -15,43 +15,81 @@ provider "aws" {
 
 
 
-resource "aws_security_group" "allow_ssh_http" {
-	name = "allow_ssh_http"
-	description = "Allow SSH and HTTP inbound traffic and all outbound traffic"
-	 vpc_id = "vpc-0f0b414dc8e574668"
-	tags = {
-		Name = "allow-ssh-http"
-	}
+# Create VPC
+resource "aws_vpc" "my_vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+
+# Create subnet
+resource "aws_subnet" "my_subnet" {
+  vpc_id     = aws_vpc.my_vpc.id
+  cidr_block = "10.0.1.0/24"
+}
+
+# Create internet gateway
+resource "aws_internet_gateway" "my_igw" {
+  vpc_id = aws_vpc.my_vpc.id
+}
+
+# Create route table
+resource "aws_route_table" "my_route_table" {
+  vpc_id = aws_vpc.my_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.my_igw.id
+  }
+}
+
+# Associate subnet with route table
+resource "aws_route_table_association" "my_subnet_association" {
+  subnet_id      = aws_subnet.my_subnet.id
+  route_table_id = aws_route_table.my_route_table.id
+}
+
+# Create security group
+resource "aws_security_group" "my_security_group" {
+  name        = "my-security-group"
+  description = "Allow SSH, HTTP, and custom TicTacToe ports"
+  vpc_id      = aws_vpc.my_vpc.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8081
+    to_port     = 8081
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 
-resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
-	security_group_id = aws_security_group.allow_ssh_http.id
-	cidr_ipv4 = "0.0.0.0/0"
-	ip_protocol = "-1" # all ports
-}
-resource "aws_vpc_security_group_ingress_rule" "allow_http" {
-	security_group_id = aws_security_group.allow_ssh_http.id
-	cidr_ipv4 = "0.0.0.0/0"
-	ip_protocol = "tcp"
-	from_port = 8080
-	to_port = 8081
-}
-resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
-	security_group_id = aws_security_group.allow_ssh_http.id
-	cidr_ipv4 = "0.0.0.0/0"
-	ip_protocol = "tcp"
-	from_port = 22
-	to_port = 22
-}
 
-
-resource "aws_instance" "tf-web-server" {
+resource "aws_instance" "my_instance" {
 	ami = "ami-080e1f13689e07408"
 	instance_type = "t2.micro"
 	key_name = "vockey"
-	subnet_id = "subnet-0877250a45b9c4ef3"
-	vpc_security_group_ids = [aws_security_group.allow_ssh_http.id] 
+	subnet_id     = aws_subnet.my_subnet.id
+	vpc_security_group_ids = [aws_security_group.my_security_group.id]
 	associate_public_ip_address = "true"
 	user_data = <<-EOF
 		#!/bin/bash
@@ -100,12 +138,11 @@ resource "aws_instance" "tf-web-server" {
 		sudo docker compose up -d
 
 
-
 		EOF
 	
 
 	user_data_replace_on_change = true
 	tags = {
-		Name = "Tic-tac-toe-Webserver2"
+		Name = "Tic-tac-toe-Webserver3"
 	}
 }
