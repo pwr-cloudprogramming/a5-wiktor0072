@@ -18,7 +18,7 @@ provider "aws" {
 resource "aws_security_group" "allow_ssh_http" {
 	name = "allow_ssh_http"
 	description = "Allow SSH and HTTP inbound traffic and all outbound traffic"
-	 vpc_id = "vpc-01d467e051bc46e75"
+	 vpc_id = "vpc-0f0b414dc8e574668"
 	tags = {
 		Name = "allow-ssh-http"
 	}
@@ -50,26 +50,27 @@ resource "aws_instance" "tf-web-server" {
 	ami = "ami-080e1f13689e07408"
 	instance_type = "t2.micro"
 	key_name = "vockey"
-	subnet_id = "subnet-0dcea9e7ff3ff76bc"
+	subnet_id = "subnet-0877250a45b9c4ef3"
 	vpc_security_group_ids = [aws_security_group.allow_ssh_http.id] 
 	associate_public_ip_address = "true"
-
-	user_data <<-EOF
+	user_data = <<-EOF
 		#!/bin/bash
 		
-		sudo apt-get install docker-ce docker-ce-cli containerd.io
-
+		cd home/ubuntu
+		sudo apt-get update -y
+		sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+        sudo snap install docker
+        
 		sudo mkdir -p /usr/local/lib/docker/cli-plugins
 		sudo curl -sL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-$(uname -m) -o /usr/local/lib/docker/cli-plugins/docker-compose
 
 		sudo chown root:root /usr/local/lib/docker/cli-plugins/docker-compose
 		sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
-		sudo snap install docker
-		sudo apt-install default-jdk
+		sudo apt-get install -y default-jdk
 
-		sudo apt update
-		sudo apt install maven
+		sudo apt-get update -y
+		sudo apt-get install -y maven
 
 		git clone -b master https://github.com/pwr-cloudprogramming/a1-wiktor0072.git
 
@@ -93,7 +94,7 @@ resource "aws_instance" "tf-web-server" {
 
 		cd a1-wiktor0072/frontend
 		sudo docker build -t frontend:v1 -t frontend:latest .
-		cd ../a1-wiktor0072/backend
+		cd ../backend
 		sudo docker build -t backend:v1 -t backend:latest .
 		cd ..
 		sudo docker compose up -d
@@ -104,6 +105,6 @@ resource "aws_instance" "tf-web-server" {
 
 	user_data_replace_on_change = true
 	tags = {
-		Name = "Tic-tac-toe-Webserver"
+		Name = "Tic-tac-toe-Webserver2"
 	}
 }
