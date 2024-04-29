@@ -44,7 +44,7 @@ I overcame several obstacles during the project, including:
 - Troubleshooting Docker container networking issues.
 - Configuring security groups and network settings in AWS.
 - Understanding how docker compose works and what files it needs
-- Assigning an EC2 instance to already created VPC subnet
+- Creating proper configure script
   
 To overcome these obstacles, I found the following resources most helpful:
 
