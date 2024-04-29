@@ -41,7 +41,7 @@ In this project, I learned:
 I overcame several obstacles during the project, including:
 
 - Understanding the intricacies of Terraform configuration.
-- Troubleshooting Docker container networking issues.
+- Troubleshooting Docker container issues.
 - Configuring security groups and network settings in AWS.
 - Understanding how docker compose works and what files it needs
 - Creating proper configure script
